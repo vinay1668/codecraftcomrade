@@ -28,7 +28,7 @@ export class ChatPanel {
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
       ChatPanel.viewType,
-      "VSinder",
+      "CCC",
       column || vscode.ViewColumn.One,
       {
         // Enable javascript in the webview
@@ -38,6 +38,8 @@ export class ChatPanel {
         localResourceRoots: [
           vscode.Uri.joinPath(extensionUri, "media"),
           vscode.Uri.joinPath(extensionUri, "out/compiled"),
+
+
         ],
       }
     );
@@ -120,10 +122,10 @@ export class ChatPanel {
   private _getHtmlForWebview(webview: vscode.Webview) {
     // // // And the uri we use to load this script in the webview
     const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "out", "compiled/swiper.js")
+      vscode.Uri.joinPath(this._extensionUri, "out/compiled", "bundle.js")
     );
 
-    // Uri to load styles into webview
+    // // Uri to load styles into webview
     const stylesResetUri = webview.asWebviewUri(vscode.Uri.joinPath(
       this._extensionUri,
       "media",
@@ -154,16 +156,17 @@ export class ChatPanel {
     }; script-src 'nonce-${nonce}';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link href="${stylesMainUri}" rel="stylesheet">
-				<link href="${stylesResetUri}" rel="stylesheet">
+				<link href=""${stylesResetUri} rel="stylesheet">
         <link href="" rel="stylesheet">
      
 			</head>
             <body>
-               <h1> Hello Comrade!! </h1>
-               <input></input>
-               <button>Click Me</button>
+            <h1>CCC</h1>
+            <input />
+            <button>Hello, Please click me </button>
 			</body>
 				<script nonce="${nonce}" src=""></script>
+        <script src="${scriptUri}" nonce="${nonce}">
 			</html>`;
   }
 }
