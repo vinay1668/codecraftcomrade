@@ -1,4 +1,4 @@
-import App from './HelloWorld.svelte';
+import App from './Main.svelte';
 
 const app = new App({
 	target: document.body,
@@ -6,6 +6,5 @@ const app = new App({
 		name: 'world'
 	}
 });
-console.log("svelte is now working,,, ")
 
 export default app;

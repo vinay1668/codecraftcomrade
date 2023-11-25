@@ -151,7 +151,7 @@ export class ChatPanel {
 					Use a content security policy to only allow loading images from https or from our extension directory,
 					and only allow scripts that have a specific nonce.
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src; img-src https: data:; style-src 'unsafe-inline' ${
+        <meta http-equiv="Content-Security-Policy" content="default-src; img-src https: data:; style-src ${
       webview.cspSource
     }; script-src 'nonce-${nonce}';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -160,10 +160,6 @@ export class ChatPanel {
         <link href="" rel="stylesheet">
      
 			</head>
-            <body>
-            <h1>CCC</h1>
-            <input />
-            <button>Hello, Please click me </button>
 			</body>
 				<script nonce="${nonce}" src=""></script>
         <script src="${scriptUri}" nonce="${nonce}">

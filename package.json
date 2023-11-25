@@ -18,7 +18,28 @@
         "category": "CCC",
         "title": "askGPT"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "CCC",
+          "title": "CCC",
+          "icon": "media/chat.svg"
+        }
+      ]
+    },
+    "views": {
+      "CCC": [
+        {
+          "id": "package-dependencies",
+          "name": "Code Craft Comrade"
+        },
+        {
+          "id": "package-outline",
+          "name": "Outline"
+        }
+      ]
+    }
   },
   "scripts": {
     "svelte-build": "rollup -c",
@@ -53,10 +74,10 @@
     "rollup-plugin-css-only": "^4.5.2",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-svelte": "^6.1.1",
+    "rollup-plugin-svelte": "^7.1.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
-    "svelte": "^4.2.7",
+    "svelte": "^3.55.0",
     "svelte-check": "^3.6.0",
     "svelte-preprocess": "^5.1.0",
     "ts-loader": "^9.5.0",
