@@ -38,8 +38,6 @@ export class ChatPanel {
         localResourceRoots: [
           vscode.Uri.joinPath(extensionUri, "media"),
           vscode.Uri.joinPath(extensionUri, "out/compiled"),
-
-
         ],
       }
     );

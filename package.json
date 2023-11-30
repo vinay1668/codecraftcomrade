@@ -31,12 +31,9 @@
     "views": {
       "CCC": [
         {
-          "id": "package-dependencies",
+          "type":"webview",
+          "id": "CCC.askGPT",
           "name": "Code Craft Comrade"
-        },
-        {
-          "id": "package-outline",
-          "name": "Outline"
         }
       ]
     }
@@ -44,7 +41,7 @@
   "scripts": {
     "svelte-build": "rollup -c",
     "svelte-dev": "rollup -c -w",
-    "start": "sirv public",
+    "start":"",
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
     "watch": "webpack",
