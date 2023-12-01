@@ -1,7 +1,27 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { ChatPanel } from './ChatPanel';
+// import { ChatPanel } from './ChatPanel';
+// import OpenAI from "openai";
+// import {Configuration, OpenAIApi} OpenAI
+// const { Configuration, OpenAIApi } = require("openai");
+
+// const configuration = new Configuration({
+// 	// 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
+//   apiKey: "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"
+// });
+// const openai = new OpenAIApi(configuration);
+
+// async function runCompletion (text:string) {
+//     const completion = await openai.createCompletion({
+//     model: "text-davinci-003",
+//     prompt: text,
+//     max_tokens:4000
+//     });
+//     console.log(completion.data.choices[0].text);
+// 	return completion.data.choices[0].text;
+// }
+
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -57,12 +77,16 @@ class CCC implements vscode.WebviewViewProvider {
 		};
 
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
+			
+			
+       
 		webviewView.webview.onDidReceiveMessage(data => {
-			switch (data.type) {
-				case 'colorSelected':
+			switch (data.command) {
+				case 'sendMessage':
 					{
-						vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
+						//var response = runCompletion(data.text);
+						// vscode.window.showErrorMessage(response);
+						//vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
 						break;
 					}
 			}
@@ -89,7 +113,6 @@ class CCC implements vscode.WebviewViewProvider {
 		// Do the same for the stylesheet.
 		const styleResetUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'reset.css'));
 		const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
-		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
 
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
@@ -104,13 +127,12 @@ class CCC implements vscode.WebviewViewProvider {
 					and only allow scripts that have a specific nonce.
 					(See the 'webview-sample' extension sample for img-src content security policy examples)
 				-->
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src ${webview.cspSource};">
 
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 				<link href="${styleResetUri}" rel="stylesheet">
 				<link href="${styleVSCodeUri}" rel="stylesheet">
-				<link href="${styleMainUri}" rel="stylesheet">
 
 			
 			</head>
