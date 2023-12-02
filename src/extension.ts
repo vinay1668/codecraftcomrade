@@ -1,14 +1,17 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+
+//const { Configuration, OpenAIApi } = require("openai");
+// const * as openapi from "openai"
+// require("dotenv-safe").config();
+// console.log(process.env)
 import * as vscode from 'vscode';
-// import { ChatPanel } from './ChatPanel';
-// import OpenAI from "openai";
-// import {Configuration, OpenAIApi} OpenAI
-// const { Configuration, OpenAIApi } = require("openai");
+
+// // import { ChatPanel } from './ChatPanel';
+// // import OpenAI from "openai";
+// // import {Configuration, OpenAIApi} OpenAI
 
 // const configuration = new Configuration({
-// 	// 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
-//   apiKey: "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"
 // });
 // const openai = new OpenAIApi(configuration);
 
@@ -21,6 +24,56 @@ import * as vscode from 'vscode';
 //     console.log(completion.data.choices[0].text);
 // 	return completion.data.choices[0].text;
 // }
+
+import * as https from 'https';
+const config = require(".././config.json");
+
+
+async function runCompletion(text: string): Promise<string> {
+   // Replace with your actual OpenAI API key
+	const apiKey=config.API_KEY;
+    const model = 'text-davinci-003'; // Adjust the model as needed
+
+    const data = JSON.stringify({
+        model,
+        prompt: text,
+        max_tokens: 4000,
+    });
+
+    const options = {
+        hostname: 'api.openai.com',
+        path: '/v1/completions',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Length': data.length,
+        },
+    };
+
+    return new Promise<string>((resolve, reject) => {
+		console.log("calling an api");
+        const req = https.request(options, (res) => {
+            let result = '';
+
+            res.on('data', (chunk) => {
+                result += chunk;
+            });
+
+            res.on('end', () => {
+				console.log(result);
+                resolve(JSON.parse(result).choices[0].text);
+            });
+        });
+
+        req.on('error', (error) => {
+            reject(error);
+        });
+
+        req.write(data);
+        req.end();
+    });
+}
 
 
 // This method is called when your extension is activated
@@ -80,10 +133,20 @@ class CCC implements vscode.WebviewViewProvider {
 			
 			
        
-		webviewView.webview.onDidReceiveMessage(data => {
+		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.command) {
 				case 'sendMessage':
 					{
+						const inputText = data.text;
+						try {
+							const result = await runCompletion(inputText);
+							console.log('OpenAI API Response:', result);
+						} catch (error) {
+							console.error('Failed to call OpenAI API:', error);
+						}
+
+
+
 						//var response = runCompletion(data.text);
 						// vscode.window.showErrorMessage(response);
 						//vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
