@@ -29,20 +29,20 @@ import * as https from 'https';
 const config = require(".././config.json");
 
 
-async function runCompletion(text: string): Promise<string> {
+async function runCompletion(inputMessages: Object): Promise<string> {
    // Replace with your actual OpenAI API key
 	const apiKey=config.API_KEY;
-    const model = 'text-davinci-003'; // Adjust the model as needed
+    const model = 'gpt-3.5-turbo'; // Adjust the model as needed
 
     const data = JSON.stringify({
         model,
-        prompt: text,
+        messages: inputMessages,
         max_tokens: 4000,
     });
 
     const options = {
         hostname: 'api.openai.com',
-        path: '/v1/completions',
+        path: '/v1/chat/completions',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,6 @@ async function runCompletion(text: string): Promise<string> {
     };
 
     return new Promise<string>((resolve, reject) => {
-		console.log("calling an api");
         const req = https.request(options, (res) => {
             let result = '';
 
@@ -62,7 +61,8 @@ async function runCompletion(text: string): Promise<string> {
 
             res.on('end', () => {
 				console.log(result);
-                resolve(JSON.parse(result).choices[0].text);
+				//completion.choices[0].message.content
+                resolve(JSON.parse(result).choices[0].message.content);
             });
         });
 
@@ -123,7 +123,6 @@ class CCC implements vscode.WebviewViewProvider {
 		webviewView.webview.options = {
 			// Allow scripts in the webview
 			enableScripts: true,
-
 			localResourceRoots: [
 				this._extensionUri
 			]
@@ -137,9 +136,13 @@ class CCC implements vscode.WebviewViewProvider {
 			switch (data.command) {
 				case 'sendMessage':
 					{
-						const inputText = data.text;
+						const inputMessages = data.text;
 						try {
-							const result = await runCompletion(inputText);
+							const result = await runCompletion(inputMessages);
+							webviewView.webview.postMessage({ 
+								 type: "response",
+								 result: result
+							});
 							console.log('OpenAI API Response:', result);
 						} catch (error) {
 							console.error('Failed to call OpenAI API:', error);
@@ -154,19 +157,6 @@ class CCC implements vscode.WebviewViewProvider {
 					}
 			}
 		});
-	}
-
-	public addColor() {
-		if (this._view) {
-			this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
-			this._view.webview.postMessage({ type: 'addColor' });
-		}
-	}
-
-	public clearColors() {
-		if (this._view) {
-			this._view.webview.postMessage({ type: 'clearColors' });
-		}
 	}
 
 	private _getHtmlForWebview(webview: vscode.Webview) {
