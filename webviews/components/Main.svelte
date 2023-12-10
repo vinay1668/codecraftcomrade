@@ -23,6 +23,7 @@
     afterUpdate(() => {
         // Adjusting the height of the chatbox as more messages are added
         scrollToBottom();
+		document.getElementById("contentEditable").focus();
      });
 	onMount(() => {
 	// Handle the message inside the webview
@@ -33,6 +34,7 @@
 			const newMessage = {
 				content: message.result,
 				role: "assistant", // For distinguishing user's messages
+				timeStamp:formatTimestamp()
 			};
 			messages = [...messages, newMessage];
 		}
@@ -42,11 +44,13 @@
     const welcomeMessage = {
       content: 'Welcome to the chat! This is a helpful comrade how will help programmers to assit in coding.',
       role: "system",
+	  timeStamp:formatTimestamp()
     };
     messages = [welcomeMessage];
   });
 
 	function sendMessage() {
+		console.log("The time stamp is", formatTimestamp());
 		const newMessage = [
 			{
 				content: 'Welcome to the chat! This is a helpful comrade who will help programmers to assit in coding.',
@@ -60,12 +64,15 @@
 		messages = [...messages, 	{
 				content: inputValue,
 				role: "user", 
+				timeStamp:formatTimestamp()
 			}];
-
+        
+		//contentEditable.focus();
 		//Adjusting the height of the chatbox as more messages are added
 		setTimeout(() => {
         // Adjusting the height of the chatbox as more messages are added
             scrollToBottom();
+			document.getElementById("contentEditable").focus();
          },50);
 
 		const content = document.getElementById('contentEditable');
@@ -103,19 +110,21 @@
 
   <index>
 	<!-- list of messages -->
+	
 	<div style="overflow-y: auto; padding: 10px; height: 92vh;" class="" bind:this={messageContainer}>
 		<div class="" id="scrollerContent">
-			{#each messages as message (message.content)}
-			<div style="margin: 5px; padding: 8px; border-radius: 5px; background-color: #333333; color: #fff; position: relative;" class="">
-				{message.content}
-				<!-- <div style="font-size: 0.8em; color: #777; position: absolute; top: 5px; right: 5px;" class="timestamp">{message.timestamp}</div> -->
+		  {#each messages as message (message.content)}
+		  <div style="margin: 5px; padding: 8px; border-radius: 5px; background-color: #333333; color: #fff; position: relative;" class="">
+			<div>
+			  {message.content}
 			</div>
-			{/each}
-	    </div>
+			<div style="font-size: 0.5em; color: rgba(255, 255, 255, 0.7); position: absolute; bottom: 5px; right: 5px; opacity:0.3;" class="timestamp">{message.timeStamp}</div>
+		  </div>
+		  {/each}
+		</div>
 	</div>
 	  
-	  
-
+	
   <main style="display: flex; position: fixed; bottom: 0; width: 100%;">
     
 	<!-- input box to send message -->
