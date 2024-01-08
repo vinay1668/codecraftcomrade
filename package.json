@@ -2,7 +2,13 @@
   "name": "codecraftcomrade",
   "displayName": "codecraftcomrade",
   "description": "A friendly comrade who is going to help you code and solve the bugs ",
-  "version": "0.0.1",
+  "version": "0.0.5",
+  "publisher": "vinayccc1081",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vinay1668/codecraftcomrade.git"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.84.0"
   },
@@ -12,18 +18,48 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "properties": {
+        "yourExtension.apiKey": {
+          "type": "string",
+          "default": "jnvn",
+          "description": "Open AI API Key for accessing the service"
+        }
+      }
+    },  
     "commands": [
       {
         "command": "codecraftcomrade.askGPT",
         "category": "CCC",
         "title": "askGPT"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "CCC",
+          "title": "CCC",
+          "icon": "media/comment-discussion.svg"
+        }
+      ]
+    },
+    "views": {
+      "CCC": [
+        {
+          "type": "webview",
+          "id": "CCC.askGPT",
+          "name": "Code Craft Comrade"
+        }
+      ]
+    }
   },
   "scripts": {
+    "svelte-build": "rollup -c",
+    "svelte-dev": "rollup -c -w",
+    "start": "",
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
-    "watch": "webpack --watch",
+    "watch": "webpack",
     "package": "webpack --mode production --devtool hidden-source-map",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
@@ -32,18 +68,41 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.84.0",
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-sucrase": "^5.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@tsconfig/svelte": "^5.0.2",
     "@types/mocha": "^10.0.3",
     "@types/node": "18.x",
+    "@types/vscode": "^1.84.0",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
+    "@vscode/test-electron": "^2.3.6",
     "eslint": "^8.52.0",
     "glob": "^10.3.10",
     "mocha": "^10.2.0",
-    "typescript": "^5.2.2",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^4.5.2",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-svelte": "^7.1.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "svelte": "^3.55.0",
+    "svelte-check": "^3.6.0",
+    "svelte-preprocess": "^5.1.0",
     "ts-loader": "^9.5.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.2",
     "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4",
-    "@vscode/test-electron": "^2.3.6"
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "configuration": "^4.1.5",
+    "dotenv": "^16.3.1",
+    "dotenv-safe": "^8.2.0",
+    "openai": "^4.20.1"
   }
 }
