@@ -8,8 +8,18 @@
 	let inputValue = '';
 	let messageContainer;
 	let contentEditable;
+   
+	// let all =  vscode.workspace.getConfiguration();
 
- 
+    // let allAsJSON = JSON.parse(JSON.stringify(all));  // the key line
+    // const editorSettings = allAsJSON.editor;
+	// const editorFontSizeSetting = editorSettings.fontSize;  // 14
+	// console.error("The Value from setting.json is:" + editorFontSizeSetting);
+
+	function getApiKey() {
+     return vscode.workspace.getConfiguration().get('yourExtension.apiKey', '');
+    }
+	
 
 	function formatTimestamp() {
 		const options = { hour: 'numeric', minute: '2-digit', hour12: true };

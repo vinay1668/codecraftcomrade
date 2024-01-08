@@ -2,7 +2,13 @@
   "name": "codecraftcomrade",
   "displayName": "codecraftcomrade",
   "description": "A friendly comrade who is going to help you code and solve the bugs ",
-  "version": "0.0.1",
+  "version": "0.0.5",
+  "publisher": "vinayccc1081",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vinay1668/codecraftcomrade.git"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.84.0"
   },
@@ -12,6 +18,15 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "properties": {
+        "yourExtension.apiKey": {
+          "type": "string",
+          "default": "jnvn",
+          "description": "Open AI API Key for accessing the service"
+        }
+      }
+    },  
     "commands": [
       {
         "command": "codecraftcomrade.askGPT",

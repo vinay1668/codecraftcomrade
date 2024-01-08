@@ -29,9 +29,11 @@ import * as https from 'https';
 const config = require(".././config.json");
 
 
+const apiKey = vscode.workspace.getConfiguration().get('yourExtension.apiKey', '');
+
+
 async function runCompletion(inputMessages: Object): Promise<string> {
    // Replace with your actual OpenAI API key
-	const apiKey=config.API_KEY;
     const model = 'gpt-3.5-turbo'; // Adjust the model as needed
 
     const data = JSON.stringify({
